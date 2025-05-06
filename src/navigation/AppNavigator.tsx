@@ -2,9 +2,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text} from 'react-native';
 import {theme} from '../theme/theme';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Screens
 import {SplashScreen} from '../screens/SplashScreen';
@@ -56,9 +56,7 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Ana Sayfa',
-          tabBarIcon: ({color}) => (
-            <Text style={{color, fontSize: 20}}>🏠</Text>
-          ),
+          tabBarIcon: ({color}) => <Icon name="home" size={24} color={color} />,
         }}
       />
       <Tab.Screen
@@ -67,7 +65,7 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: 'Aktiviteler',
           tabBarIcon: ({color}) => (
-            <Text style={{color, fontSize: 20}}>📊</Text>
+            <Icon name="chart-line" size={24} color={color} />
           ),
         }}
       />
@@ -77,7 +75,7 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: 'Daha Fazla',
           tabBarIcon: ({color}) => (
-            <Text style={{color, fontSize: 20}}>⚙️</Text>
+            <Icon name="dots-horizontal" size={24} color={color} />
           ),
         }}
       />

@@ -9,6 +9,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {theme} from '../theme/theme';
 import {Button} from '../components/Button';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const menuItems = [
   {
@@ -42,6 +43,14 @@ const menuItems = [
     route: 'About',
   },
 ];
+
+const menuIcons: Record<string, string> = {
+  platforms: 'cog',
+  privacy: 'shield-lock',
+  terms: 'information',
+  contact: 'phone',
+  about: 'information-outline',
+};
 
 export const MoreScreen = ({navigation}: any) => {
   const handleMenuItemPress = (route: string) => {
@@ -77,7 +86,12 @@ export const MoreScreen = ({navigation}: any) => {
               key={item.id}
               style={styles.menuItem}
               onPress={() => handleMenuItemPress(item.route)}>
-              <Text style={styles.menuIcon}>{item.icon}</Text>
+              <Icon
+                name={menuIcons[item.id]}
+                size={28}
+                color={theme.colors.primary}
+                style={{marginRight: 16}}
+              />
               <Text style={styles.menuTitle}>{item.title}</Text>
               <Text style={styles.chevronIcon}>›</Text>
             </TouchableOpacity>
@@ -150,8 +164,9 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     flex: 1,
-    fontSize: 18,
     color: theme.colors.text,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   chevronIcon: {
     fontSize: 24,

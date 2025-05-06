@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {theme} from '../theme/theme';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const playlists = [
   {
@@ -37,11 +38,19 @@ const playlists = [
   },
 ];
 
+const platformIcons: Record<string, string> = {
+  spotify: 'spotify',
+  youtube: 'youtube',
+  apple: 'apple',
+  deezer: 'music-circle',
+};
+
 export const PlatformDetailScreen = ({route, navigation}: any) => {
   const {platform, onDisconnect} = route.params;
   const [searchQuery, setSearchQuery] = useState('');
 
   const platformEmoji = platform.emoji || '🎵';
+  const platformIconName = platformIcons[platform.id] || 'music-circle';
 
   const filteredPlaylists = playlists.filter(playlist =>
     playlist.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -51,7 +60,12 @@ export const PlatformDetailScreen = ({route, navigation}: any) => {
     <TouchableOpacity
       style={styles.playlistCard}
       onPress={() => navigation.navigate('PlaylistDetail', {playlist: item})}>
-      <Text style={styles.playlistIcon}>{item.icon}</Text>
+      <Icon
+        name="music-note"
+        size={32}
+        color={platform.color}
+        style={styles.playlistIcon}
+      />
       <View style={styles.playlistInfo}>
         <Text style={styles.playlistName}>{item.name}</Text>
         <Text style={styles.songCount}>{item.songCount} şarkı</Text>
@@ -68,7 +82,12 @@ export const PlatformDetailScreen = ({route, navigation}: any) => {
           {backgroundColor: platform.color + '22', shadowColor: platform.color},
         ]}>
         <View style={styles.headerContent}>
-          <Text style={styles.platformEmoji}>{platformEmoji}</Text>
+          <Icon
+            name={platformIconName}
+            size={40}
+            color={platform.color}
+            style={styles.platformEmoji}
+          />
           <View style={styles.headerTextGroup}>
             <Text style={styles.platformTitle}>{platform.name}</Text>
             <View style={styles.connectedBadge}>

@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {theme} from '../theme/theme';
 import {Button} from '../components/Button';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const slides = [
   {
@@ -26,6 +27,12 @@ const slides = [
   },
 ];
 
+const slideIcons: Record<string, string> = {
+  '1': 'playlist-music',
+  '2': 'music-multiple',
+  '3': 'flash',
+};
+
 export const OnboardingScreen = ({onFinish}: {onFinish: () => void}) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -35,7 +42,12 @@ export const OnboardingScreen = ({onFinish}: {onFinish: () => void}) => {
         <View style={styles.slideContainer}>
           {slides.map(slide => (
             <View key={slide.id} style={styles.slide}>
-              <Text style={styles.icon}>{slide.icon}</Text>
+              <Icon
+                name={slideIcons[slide.id]}
+                size={48}
+                color={theme.colors.primary}
+                style={styles.icon}
+              />
               <Text style={styles.title}>{slide.title}</Text>
               <Text style={styles.description}>{slide.description}</Text>
             </View>
@@ -69,7 +81,6 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xl,
   },
   icon: {
-    fontSize: 80,
     marginBottom: theme.spacing.lg,
   },
   title: {

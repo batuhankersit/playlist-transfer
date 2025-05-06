@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connectYouTubeMusic} from '../api/platformAuth';
 import {SpotifyAuthWebView as SpotifyAuthWebViewComponent} from '../components/SpotifyAuthWebView';
 import {YouTubeMusicAuthWebView} from '../components/YouTubeMusicAuthWebView';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const initialPlatforms = [
   {
@@ -67,6 +68,13 @@ const recentTransfers = [
   },
 ];
 
+const platformIcons: Record<string, string> = {
+  spotify: 'spotify',
+  youtube: 'youtube',
+  apple: 'apple',
+  deezer: 'music-circle',
+};
+
 export const HomeScreen = ({navigation}: any) => {
   const [platforms, setPlatforms] = useState(initialPlatforms);
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -100,7 +108,9 @@ export const HomeScreen = ({navigation}: any) => {
         Alert.alert(
           'Bağlantı Hatası',
           'YouTube Music bağlantısı başarısız: ' +
-            (result.error?.message || JSON.stringify(result.error) || ''),
+            (typeof result.error === 'string'
+              ? result.error
+              : JSON.stringify(result.error) || ''),
         );
       }
     } else {
@@ -145,6 +155,12 @@ export const HomeScreen = ({navigation}: any) => {
     );
   };
 
+  const getStatusBadgeStyle = (status: string) => {
+    if (status === 'completed') return styles.completedBadge;
+    if (status === 'inProgress') return styles.inProgressBadge;
+    return {};
+  };
+
   const renderPlatformCard = ({item}: {item: (typeof platforms)[0]}) => (
     <TouchableOpacity
       style={[
@@ -156,7 +172,7 @@ export const HomeScreen = ({navigation}: any) => {
       onPress={() => handlePlatformPress(item)}
       disabled={!!loadingId}>
       <View style={styles.platformEmojiContainer}>
-        <Text style={styles.platformEmoji}>{item.emoji}</Text>
+        <Icon name={platformIcons[item.id]} size={32} color={item.color} />
       </View>
       <View style={styles.platformInfoContainer}>
         <Text style={styles.platformName}>{item.name}</Text>
@@ -189,7 +205,7 @@ export const HomeScreen = ({navigation}: any) => {
         <Text style={styles.transferText}>
           {item.from} → {item.to}
         </Text>
-        <View style={[styles.statusBadge, styles[`${item.status}Badge`]]}>
+        <View style={[styles.statusBadge, getStatusBadgeStyle(item.status)]}>
           <Text style={styles.statusText}>
             {item.status === 'completed' ? 'Tamamlandı' : 'Devam Ediyor'}
           </Text>
